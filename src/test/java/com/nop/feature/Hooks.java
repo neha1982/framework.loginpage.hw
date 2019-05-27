@@ -24,16 +24,32 @@ public class Hooks extends Utils {
         driver.get("https://demo.nopcommerce.com/");
     }
     @After
+    p@After
     public void closeBrowser(Scenario scenario)throws Exception{
-        try {
-            if (scenario.isFailed()){
-                final File screenshot = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-                FileUtils.copyFile(screenshot,new File("FailedTestCase\\"+ System.currentTimeMillis()+".pag"));
+        if (scenario.isFailed()){
+            try {
+                TakesScreenshot ts =(TakesScreenshot)driver;
+
+                File source = ts.getScreenshotAs(OutputType.FILE);
+
+                FileUtils.copyFile(source,new File("Screenshot\\"+ scenario.getName()+".png"));
+
+                System.out.println("Screenshot taken");
             }
-        }catch (WebDriverException somePlatformsDontSupportScreenshots){
-            System.err.println(somePlatformsDontSupportScreenshots.getMessage());
+            catch (Exception e){
+                System.out.println("Exception while takin screenshot"+e.getMessage());
+            }
+            driver.quit();
         }
-        driver.close();
+//        try {
+//            if (scenario.isFailed()){
+//                final File screenshot = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+//                FileUtils.copyFile(screenshot,new File("FailedTestCase\\"+ System.currentTimeMillis()+".png"));
+//            }
+//        }catch (WebDriverException somePlatformsDontSupportScreenshots){
+//            System.err.println(somePlatformsDontSupportScreenshots.getMessage());
+//        }
+        driver.quit();
 
 
     }
