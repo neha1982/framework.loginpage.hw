@@ -50,6 +50,47 @@ public class MyStepdefs {
     public void userClickOnChangeCurrency() {
 
     }
+    @Then("^All product should show in Dollar value$")
+    public void allProductShouldShowInDollarValue() {
+        currencyChange.priceCurrency();
+
+    }
+
+    @When("^user clicks on \"([^\"]*)\" link from top menu$")
+    public void userClicksOnLinkFromTopMenu(String link) throws Throwable {
+        homePage.clickOnCategoryLinks(link);
+
+    }
+
+    @Then("^user should able to navigate to \"([^\"]*)\" successfully$")
+    public void userShouldAbleToNavigateToSuccessfully(String link) {
+        Utils.assertCurrentURL(link);
+    }
+
+    @Given("^user is on login page$")
+    public void userIsOnLoginPage() {
+        homePage.clickOnLoginLink();
+    }
+    @When("^user enters invalid \"([^\"]*)\" or \"([^\"]*)\"$")
+    public void userEntersInvalidOr(String email, String password) throws Throwable {
+        loginPage.userEntersLoginDetails(email, password);
+
+    }
+    @Then("^user should able to see the \"([^\"]*)\"$")
+    public void userShouldAbleToSeeThe(String errormessage) throws Throwable {
+        boolean b;
+        if (errormessage.contains("No customer account found")|| errormessage.contains("The credential provided are incorrect"))
+        {
+            b=true;
+        }
+        else
+        {
+            b = false;
+        }
+        Assert.assertTrue(b);
+
+
+    }
 
 
 
